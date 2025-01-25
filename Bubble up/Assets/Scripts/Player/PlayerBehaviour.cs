@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -5,17 +6,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerBehaviour : MonoBehaviour
 {
-    [SerializeField]
-    private Transform _sprite;
+    public event Action<bool> JumpState;
 
     [SerializeField]
-    private CircleCollider2D _collider;
-
-    [SerializeField]
-    private float _maxLife = 10;
-
-    [SerializeField]
-    private float _jumpForce = 1;
+    private PlayerStats _stats;
 
     [SerializeField]
     private float _maxTimeForce;
@@ -29,36 +23,24 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField]
     private InputActionReference _jump;
 
-    [SerializeField]
-    private float _maxFallSpeed;
+    private Vector2 _screenBounds;
 
-    [SerializeField]
-    private float _maxHorizontalSpeed;
-
-    [SerializeField]
-    private float _limitDistnaceToFail = 20f;
-
-    private Vector2 _screenBounds; 
-
-    private float _jumpTimeEnergy;
-    private float _currentLife;
     private float _currentHeight;
     private float _heightRecord;
-    private float _currentFallSpeed;
-    private float _currentHorizontalSpeed;
 
-    private Coroutine _chargin;
+    private Coroutine _charging;
     private Coroutine _movingDown;
     private Coroutine _movingUp;
+
     public ParticlePool particlePool;
     private void Awake()
     {
         _jump.action.performed += Jump;
-        _currentLife = _maxLife;
+        _stats.CurrentLife = _stats.MaxLife;
     }
     private void Start()
     {
-        GameManager.Instance.Height += (float value) =>_currentHeight = value;
+        GameManager.Instance.Height += (float value) => _currentHeight = value;
         Camera mainCamera = Camera.main;
         _screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         SetSpeeds();
@@ -66,8 +48,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void SetSpeeds()
     {
-        _currentFallSpeed = Mathf.Lerp(1, _maxFallSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
-        _currentHorizontalSpeed = Mathf.Lerp(1, _maxHorizontalSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
+        _stats.CurrentFallSpeed = Mathf.Lerp(1, _stats.MaxFallSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
+        _stats.CurrentHorizontalSpeed = Mathf.Lerp(1, _stats.MaxHorizontalSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
     }
 
     private void Jump(InputAction.CallbackContext context)
@@ -79,39 +61,46 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (context.ReadValueAsButton())
         {
-            if(_movingDown != null)
-            {
-                StopCoroutine(_movingDown);
-                _movingDown = null;
-            }
-            if(_movingUp != null)
-            {
-                StopCoroutine(_movingUp);
-                _movingUp = null;
-            }
-            _chargin = StartCoroutine(ChargeTimeEnergy());
+            CheckMovementCoroutines();
+            _charging = StartCoroutine(ChargeTimeEnergy());
         }
         else
         {
-            if(_chargin != null)
+            if (_charging != null)
             {
-                StopCoroutine(_chargin);
-                _chargin = null;
+                StopCoroutine(_charging);
+                _charging = null;
             }
             _movingUp = StartCoroutine(MoveBubble());
             CheckLife();
+        }
+
+        JumpState?.Invoke(context.ReadValueAsButton());
+    }
+
+    private void CheckMovementCoroutines()
+    {
+        if (_movingDown != null)
+        {
+            StopCoroutine(_movingDown);
+            _movingDown = null;
+        }
+        if (_movingUp != null)
+        {
+            StopCoroutine(_movingUp);
+            _movingUp = null;
         }
     }
 
     private IEnumerator ChargeTimeEnergy()
     {
-        _jumpTimeEnergy = 0;
+        _stats.JumpTimeEnergy = 0;
 
         while (true)
         {
-            if (_jumpTimeEnergy <= _maxTimeForce)
+            if (_stats.JumpTimeEnergy <= _maxTimeForce)
             {
-                _jumpTimeEnergy += Time.deltaTime;
+                _stats.JumpTimeEnergy += Time.deltaTime;
                 yield return null;
             }
             else
@@ -130,10 +119,10 @@ public class PlayerBehaviour : MonoBehaviour
         // Devolverlo al pool después de que termine
         StartCoroutine(ReturnToPool(dust));
         float elapsedTime = 0f;
-        float totalJumpTime = Mathf.Clamp(_jumpTimeEnergy, 0, _maxTimeForce) * _jumpForce;
+        float totalJumpTime = Mathf.Clamp(_stats.JumpTimeEnergy, 0, _maxTimeForce) * _stats.JumpForce;
 
         Vector3 startPosition = transform.position;
-        Vector3 targetPosition = startPosition + new Vector3(0, totalJumpTime, 0); 
+        Vector3 targetPosition = startPosition + new Vector3(0, totalJumpTime, 0);
 
         while (elapsedTime < _jumpTime)
         {
@@ -148,7 +137,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         _heightRecord = transform.position.y;
 
-        if(_heightRecord > _currentHeight)
+        if (_heightRecord > _currentHeight)
         {
             GameManager.Instance.ChangeHeight(_heightRecord);
             SetSpeeds();
@@ -165,9 +154,9 @@ public class PlayerBehaviour : MonoBehaviour
     private void CheckLife()
     {
         StopCoroutine(LifeScale());
-        _currentLife -= _jumpTimeEnergy * _jumpForce;
+        _stats.CurrentLife -= _stats.JumpTimeEnergy * _stats.JumpForce;
         StartCoroutine(LifeScale());
-        if( _currentLife < 0)
+        if (_stats.CurrentLife < 0)
         {
             GameOver();
         }
@@ -175,14 +164,14 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void ChangeLife(float value)
     {
-        _currentLife += value;
+        _stats.CurrentLife += value;
         CheckLife();
     }
 
     private IEnumerator LifeScale()
     {
-        Vector3 startScale = _sprite.transform.localScale;
-        float scale = _currentLife / _maxLife;
+        Vector3 startScale = _stats.Sprite.transform.localScale;
+        float scale = _stats.CurrentLife / _stats.MaxLife;
         Vector3 targetScale = new Vector3(scale, scale, scale);
 
         float elapsedTime = 0f;
@@ -192,7 +181,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             float progress = Mathf.Clamp01(elapsedTime / _jumpTime);
 
-            _sprite.transform.localScale = Vector3.Lerp(startScale, targetScale, progress);
+            _stats.Sprite.transform.localScale = Vector3.Lerp(startScale, targetScale, progress);
 
             yield return null;
         }
@@ -209,15 +198,15 @@ public class PlayerBehaviour : MonoBehaviour
         float horizontalBias = 0f;
         if (leftDistance < rightDistance)
         {
-            horizontalBias = -1f; 
+            horizontalBias = -1f;
         }
         else if (rightDistance < leftDistance)
         {
-            horizontalBias = 1f; 
+            horizontalBias = 1f;
         }
         else
         {
-            horizontalBias = UnityEngine.Random.Range(0f, 1f) < 0.5f ? 1f : -1f; 
+            horizontalBias = UnityEngine.Random.Range(0f, 1f) < 0.5f ? 1f : -1f;
         }
 
         float heightFactor = Mathf.Clamp01(_currentHeight / GameManager.Instance.MaxHeightDificult);
@@ -226,15 +215,15 @@ public class PlayerBehaviour : MonoBehaviour
 
         while (true)
         {
-            float horizontalDisplacement = currentDirection * _currentHorizontalSpeed * Time.deltaTime;
+            float horizontalDisplacement = currentDirection * _stats.CurrentHorizontalSpeed * Time.deltaTime;
             float newX = transform.position.x + horizontalDisplacement;
-            float newY = transform.position.y - (_currentFallSpeed * Time.deltaTime);
+            float newY = transform.position.y - (_stats.CurrentFallSpeed * Time.deltaTime);
 
             newX = Mathf.Clamp(newX, -_screenBounds.x + transform.localScale.x / 2, _screenBounds.x - transform.localScale.x / 2);
 
             transform.position = new Vector3(newX, newY, transform.position.z);
 
-            if (transform.position.y <= _currentHeight - _limitDistnaceToFail)
+            if (transform.position.y <= _currentHeight - _stats.LimitDistnaceToFail)
             {
                 GameOver();
             }
