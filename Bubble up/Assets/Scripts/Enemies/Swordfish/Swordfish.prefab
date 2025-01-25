@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 708591418689577211}
   - component: {fileID: 7088166658650539444}
   - component: {fileID: 6319943808352270173}
+  - component: {fileID: 7564505914881007482}
   m_Layer: 0
   m_Name: Swordfish
   m_TagString: Untagged
@@ -51,7 +52,6 @@ MonoBehaviour:
   maxSpeed: 8
   fishSpeed: 2
   triggered: 1
-  damage: 10
 --- !u!50 &7088166658650539444
 Rigidbody2D:
   serializedVersion: 4
@@ -124,6 +124,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7564505914881007482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277736623031070053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782f014e695dd46449b0dfdb9dbb23a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _autoKiller: 0
+  _damage: 20
 --- !u!1 &2937976109755539619
 GameObject:
   m_ObjectHideFlags: 0

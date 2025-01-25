@@ -23,6 +23,9 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField]
     private InputActionReference _jump;
 
+    [SerializeField]
+    private Animator _animator;
+
     private Vector2 _screenBounds;
 
     private float _currentHeight;
@@ -225,10 +228,10 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    private void GameOver()
+    public void GameOver()
     {
-        _stats.Sprite.transform.localScale = Vector3.zero;
         StopAllCoroutines();
+        _animator.SetTrigger("Die");
         GameManager.Instance.GameOver.Invoke(true);
         Debug.Log("GameOver");
     }
