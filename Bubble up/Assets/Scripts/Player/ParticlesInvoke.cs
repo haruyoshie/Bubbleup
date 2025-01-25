@@ -12,6 +12,7 @@ public class ParticlesInvoke : MonoBehaviour
     void Start()
     {
         _player.JumpState += InvokeParticles;
+        GameManager.Instance.GameOver += GameOver;
     }
 
     private void InvokeParticles(bool obj)
@@ -22,6 +23,13 @@ public class ParticlesInvoke : MonoBehaviour
         dust.transform.position = transform.position;
         dust.Play();
         StartCoroutine(ReturnToPool(dust));
+    }
+    private void GameOver(bool state)
+    {
+        if (!state) return;
+        InvokeParticles(false);
+        InvokeParticles(false);
+        InvokeParticles(false);
     }
 
     private IEnumerator ReturnToPool(ParticleSystem dust)

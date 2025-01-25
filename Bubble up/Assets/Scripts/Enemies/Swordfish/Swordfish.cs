@@ -15,9 +15,6 @@ public class Swordfish : MonoBehaviour
     [SerializeField]
     private bool triggered;
 
-    [SerializeField]
-    private float damage = 10f;
-
     private bool leftPoint;
     private bool rightPoint;
 
@@ -117,16 +114,6 @@ public class Swordfish : MonoBehaviour
             transform.position = new Vector2(rightBoundary.x, transform.position.y);
             rightPoint = false; // Start moving towards the left
             leftPoint = true;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            PlayerBehaviour player = collision.transform.GetComponentInParent<PlayerBehaviour>();
-            print("Dealing damage");
-            player.ChangeLife(-damage);
         }
     }
 }

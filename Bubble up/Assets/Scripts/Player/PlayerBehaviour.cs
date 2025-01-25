@@ -32,7 +32,6 @@ public class PlayerBehaviour : MonoBehaviour
     private Coroutine _movingDown;
     private Coroutine _movingUp;
 
-    public ParticlePool particlePool;
     private void Awake()
     {
         _jump.action.performed += Jump;
@@ -48,8 +47,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void SetSpeeds()
     {
-        _stats.CurrentFallSpeed = Mathf.Lerp(1, _stats.MaxFallSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
-        _stats.CurrentHorizontalSpeed = Mathf.Lerp(1, _stats.MaxHorizontalSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
+        _stats.CurrentFallSpeed = Mathf.Lerp(_stats.JumpForce/1.5f, _stats.MaxFallSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
+        _stats.CurrentHorizontalSpeed = Mathf.Lerp(_stats.JumpForce / 2, _stats.MaxHorizontalSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
     }
 
     private void Jump(InputAction.CallbackContext context)
@@ -61,16 +60,11 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (context.ReadValueAsButton())
         {
-            CheckMovementCoroutines();
             _charging = StartCoroutine(ChargeTimeEnergy());
         }
         else
         {
-            if (_charging != null)
-            {
-                StopCoroutine(_charging);
-                _charging = null;
-            }
+            CheckAndStopCoroutines();
             _movingUp = StartCoroutine(MoveBubble());
             CheckLife();
         }
@@ -78,7 +72,7 @@ public class PlayerBehaviour : MonoBehaviour
         JumpState?.Invoke(context.ReadValueAsButton());
     }
 
-    private void CheckMovementCoroutines()
+    private void CheckAndStopCoroutines()
     {
         if (_movingDown != null)
         {
@@ -89,6 +83,11 @@ public class PlayerBehaviour : MonoBehaviour
         {
             StopCoroutine(_movingUp);
             _movingUp = null;
+        }
+        if (_charging != null)
+        {
+            StopCoroutine(_charging);
+            _charging = null;
         }
     }
 
@@ -112,12 +111,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     private IEnumerator MoveBubble()
     {
-        ParticleSystem dust = particlePool.GetParticle();
-        dust.transform.position = transform.position;
-        dust.Play();
-
-        // Devolverlo al pool después de que termine
-        StartCoroutine(ReturnToPool(dust));
         float elapsedTime = 0f;
         float totalJumpTime = Mathf.Clamp(_stats.JumpTimeEnergy, 0, _maxTimeForce) * _stats.JumpForce;
 
@@ -145,18 +138,13 @@ public class PlayerBehaviour : MonoBehaviour
 
         _movingDown = StartCoroutine(MoveDownWithDynamicDirection());
     }
-    private IEnumerator ReturnToPool(ParticleSystem dust)
-    {
-        yield return new WaitForSeconds(dust.main.duration); // Espera a que termine
-        particlePool.ReturnParticle(dust); // Devuelve el sistema al pool
-    }
 
     private void CheckLife()
     {
         StopCoroutine(LifeScale());
-        _stats.CurrentLife -= _stats.JumpTimeEnergy * _stats.JumpForce;
+        _stats.CurrentLife -= (_stats.JumpTimeEnergy * _stats.JumpForce) / 2;
         StartCoroutine(LifeScale());
-        if (_stats.CurrentLife < 0)
+        if (_stats.CurrentLife <= 0.2f)
         {
             GameOver();
         }
@@ -172,6 +160,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Vector3 startScale = _stats.Sprite.transform.localScale;
         float scale = _stats.CurrentLife / _stats.MaxLife;
+        scale = Mathf.Clamp(scale,0.2f,1);
         Vector3 targetScale = new Vector3(scale, scale, scale);
 
         float elapsedTime = 0f;
@@ -223,14 +212,14 @@ public class PlayerBehaviour : MonoBehaviour
 
             transform.position = new Vector3(newX, newY, transform.position.z);
 
-            if (transform.position.y <= _currentHeight - _stats.LimitDistnaceToFail)
+            if (transform.position.y <= startPosition.y - _stats.LimitDistnaceToFail)
             {
-                GameOver();
+                ChangeLife(-0.0000000001f);
             }
-            if (newX <= -_screenBounds.x + transform.localScale.x / 2 || newX >= _screenBounds.x - transform.localScale.x / 2)
-            {
-                GameOver();
-            }
+            //if (newX <= -_screenBounds.x + transform.localScale.x / 2 || newX >= _screenBounds.x - transform.localScale.x / 2)
+            //{
+            //    GameOver();
+            //}
 
             yield return null;
         }
@@ -238,6 +227,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void GameOver()
     {
+        _stats.Sprite.transform.localScale = Vector3.zero;
         StopAllCoroutines();
         GameManager.Instance.GameOver.Invoke(true);
         Debug.Log("GameOver");

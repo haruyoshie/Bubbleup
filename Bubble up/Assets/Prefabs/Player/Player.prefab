@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4564881761137402082}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -51,11 +51,11 @@ MonoBehaviour:
     Sprite: {fileID: 669990138573055646}
     Collider: {fileID: 1520234640780750066}
     MaxLife: 100
-    JumpForce: 50
-    MaxFallSpeed: 20
-    MaxHorizontalSpeed: 30
-    LimitDistnaceToFail: 50
-  _maxTimeForce: 5
+    JumpForce: 15
+    MaxFallSpeed: 15
+    MaxHorizontalSpeed: 20
+    LimitDistnaceToFail: 5
+  _maxTimeForce: 2
   _jumpTime: 1
   _animationCurve:
     serializedVersion: 2
@@ -71,18 +71,17 @@ MonoBehaviour:
       outWeight: 0.11864406
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0.002156798
-      outSlope: 0.002156798
+      value: 0.5
+      inSlope: -1.40557
+      outSlope: -1.40557
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.69133186
+      inWeight: 0.42917544
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   _jump: {fileID: 7552817941861855264, guid: 4e1102aa2728d714bb7273561f462fd7, type: 3}
-  particlePool: {fileID: 0}
 --- !u!114 &4873446763736181706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +139,7 @@ GameObject:
   - component: {fileID: 1520234640780750066}
   m_Layer: 0
   m_Name: Sprite
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

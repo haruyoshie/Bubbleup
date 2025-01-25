@@ -915,7 +915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b7ed6f12650bd449dffb84878a26fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHeightDificult: 100
+  _maxHeightDificult: 500
   _gameOverState: 0
 --- !u!4 &1919327916
 Transform:
@@ -926,7 +926,7 @@ Transform:
   m_GameObject: {fileID: 1919327914}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.6889913, y: 6.0710077, z: -0.10941362}
+  m_LocalPosition: {x: -2.688991, y: 6.071008, z: -0.1094136}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1159,10 +1159,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
-      propertyPath: particlePool
-      value: 
-      objectReference: {fileID: 2137341035}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
