@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sprite: {fileID: 689445100}
-  _sphereCollider: {fileID: 689445101}
+  _collider: {fileID: 689445103}
   _maxLife: 100
   _jumpForce: 5
   _maxTimeForce: 5
@@ -435,6 +435,7 @@ MonoBehaviour:
   _jump: {fileID: 7552817941861855264, guid: 4e1102aa2728d714bb7273561f462fd7, type: 3}
   _maxFallSpeed: 10
   _maxHorizontalSpeed: 10
+  _limitDistnaceToFail: 20
 --- !u!4 &666602777
 Transform:
   m_ObjectHideFlags: 0
@@ -494,6 +495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHeightDificult: 20
+  _gameOverState: 0
 --- !u!1 &689445099
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,7 +506,7 @@ GameObject:
   m_Component:
   - component: {fileID: 689445100}
   - component: {fileID: 689445102}
-  - component: {fileID: 689445101}
+  - component: {fileID: 689445103}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -527,27 +529,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 666602777}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &689445101
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 689445099}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &689445102
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -600,6 +581,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &689445103
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689445099}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!114 &767808247
 MonoBehaviour:
   m_ObjectHideFlags: 0

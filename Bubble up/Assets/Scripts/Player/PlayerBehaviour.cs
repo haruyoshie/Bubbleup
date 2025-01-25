@@ -9,7 +9,7 @@ public class PlayerBehaviour : MonoBehaviour
     private Transform _sprite;
 
     [SerializeField]
-    private SphereCollider _sphereCollider;
+    private CircleCollider2D _collider;
 
     [SerializeField]
     private float _maxLife = 10;
@@ -33,7 +33,10 @@ public class PlayerBehaviour : MonoBehaviour
     private float _maxFallSpeed;
 
     [SerializeField]
-    private float _maxHorizontalSpeed; 
+    private float _maxHorizontalSpeed;
+
+    [SerializeField]
+    private float _limitDistnaceToFail = 20f;
 
     private Vector2 _screenBounds; 
 
@@ -220,7 +223,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             transform.position = new Vector3(newX, newY, transform.position.z);
 
-            if (newY <= -_screenBounds.y)
+            if (transform.position.y <= _currentHeight - _limitDistnaceToFail)
             {
                 GameOver();
             }
