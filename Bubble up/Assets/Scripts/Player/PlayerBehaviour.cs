@@ -47,7 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
     private Coroutine _chargin;
     private Coroutine _movingDown;
     private Coroutine _movingUp;
-
+    public ParticlePool particlePool;
     private void Awake()
     {
         _jump.action.performed += Jump;
@@ -120,6 +120,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     private IEnumerator MoveBubble()
     {
+        ParticleSystem dust = particlePool.GetParticle();
+        dust.transform.position = transform.position;
+        dust.Play();
+
+        // Devolverlo al pool después de que termine
+        StartCoroutine(ReturnToPool(dust));
         float elapsedTime = 0f;
         float totalJumpTime = Mathf.Clamp(_jumpTimeEnergy, 0, _maxTimeForce) * _jumpForce;
 
@@ -146,6 +152,11 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         _movingDown = StartCoroutine(MoveDownWithDynamicDirection());
+    }
+    private IEnumerator ReturnToPool(ParticleSystem dust)
+    {
+        yield return new WaitForSeconds(dust.main.duration); // Espera a que termine
+        particlePool.ReturnParticle(dust); // Devuelve el sistema al pool
     }
 
     private void CheckLife()
