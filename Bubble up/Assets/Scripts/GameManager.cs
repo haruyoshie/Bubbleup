@@ -13,6 +13,18 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private bool _gameOverState;
 
+    [SerializeField]
+    private GameObject _score;
+
+    [SerializeField]
+    private GameObject _recordScore;
+
+    [SerializeField]
+    private GameObject _intro;
+
+    [SerializeField]
+    private GameObject _finalScreen;
+
     public float MaxHeightDificult 
     { 
         get => _maxHeightDificult;
@@ -27,9 +39,36 @@ public class GameManager : MonoBehaviour
         Instance = this;
         GameOver += (bool value) => _gameOverState = value;
 
-        if(GameMode.CurrentGameType == GameMode.GameType.Infinite)
+        OnInfiniteMode();
+        OnStoryMode();
+    }
+
+    private void OnInfiniteMode()
+    {
+        if (GameMode.CurrentGameType == GameMode.GameType.Infinite)
         {
-            _maxHeightDificult = PlayerPrefs.GetFloat("MaxScore") > _maxHeightDificult ? _maxHeightDificult * 2 : _maxHeightDificult;
+            _maxHeightDificult = PlayerPrefs.GetFloat("MaxScore") > _maxHeightDificult ? _maxHeightDificult * 1.5f : _maxHeightDificult;
+            _intro.SetActive(false);
+        }
+    }
+
+    private void OnStoryMode()
+    {
+        if (GameMode.CurrentGameType == GameMode.GameType.Story)
+        {
+            _score.SetActive(false);
+            _recordScore.SetActive(false);
+            _intro.SetActive(true);
+            Height += OnStoryModeEnds;
+        }
+    }
+
+    private void OnStoryModeEnds(float height)
+    {
+        if(height >= MaxHeightDificult)
+        {
+            _finalScreen.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 

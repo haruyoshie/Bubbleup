@@ -19,6 +19,13 @@ public class ScoreManager : MonoBehaviour
 
     private void SaveScore(bool state)
     {
+        if(GameMode.CurrentGameType == GameMode.GameType.Story)
+        {
+            GameManager.Instance.Height -= UpdateScore;
+            GameManager.Instance.GameOver -= SaveScore;
+            return;
+        }
+
         if (!state) return;
 
         string score = _score.ToString("F1");

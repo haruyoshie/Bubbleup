@@ -134,6 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 782f014e695dd46449b0dfdb9dbb23a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _disableOnCollition: 0
+  _parent: {fileID: 0}
   _autoKiller: 1
   _damage: 100
 --- !u!58 &3198309412697622008
@@ -168,9 +170,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.21, y: 0}
+  m_Offset: {x: -1.12, y: -0.09}
   serializedVersion: 2
-  m_Radius: 1.17
+  m_Radius: 1.07
 --- !u!58 &1542100085218172975
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -203,9 +205,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.1, y: 0.3}
+  m_Offset: {x: 0.1, y: 0.24}
   serializedVersion: 2
-  m_Radius: 0.33
+  m_Radius: 0.34
 --- !u!58 &5960357140552642582
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -238,9 +240,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -2.3, y: 0.3}
+  m_Offset: {x: -2.24, y: 0.3}
   serializedVersion: 2
-  m_Radius: 0.42
+  m_Radius: 0.38
 --- !u!50 &5841794716131525773
 Rigidbody2D:
   serializedVersion: 4
