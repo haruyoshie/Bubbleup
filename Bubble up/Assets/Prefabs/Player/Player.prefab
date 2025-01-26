@@ -51,10 +51,11 @@ MonoBehaviour:
     Sprite: {fileID: 669990138573055646}
     Collider: {fileID: 1520234640780750066}
     MaxLife: 100
-    JumpForce: 15
-    MaxFallSpeed: 15
-    MaxHorizontalSpeed: 20
+    JumpForce: 10
+    MaxFallSpeed: 10
+    MaxHorizontalSpeed: 10
     LimitDistnaceToFail: 5
+    ZigZagSwitchInterval: 2
   _maxTimeForce: 2
   _jumpTime: 1
   _animationCurve:
@@ -77,6 +78,30 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.42917544
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _zigzagCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.2
+      inSlope: 2.3476522
+      outSlope: 2.3476522
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.08571402
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: -1.6192256
+      outSlope: -1.6192256
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08336431
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

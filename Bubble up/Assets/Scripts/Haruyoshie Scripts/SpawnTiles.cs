@@ -47,7 +47,7 @@ public class SpawnTiles : MonoBehaviour
     private void OnHeightChanged(float height)
     {
         _height = height; // Actualizar la altura actual
-        Debug.Log($"Altura actual: {_height}");
+        //Debug.Log($"Altura actual: {_height}");
     }
 
     void SpawnGround()
