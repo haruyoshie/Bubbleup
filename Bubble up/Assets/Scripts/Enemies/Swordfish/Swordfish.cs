@@ -42,7 +42,7 @@ public class Swordfish : MonoBehaviour
 
     void SpeedDifficulty(float h)
     {
-        print("Invoking height" + h);
+        //print("Invoking height" + h);
         AdjustSpeed(h);
     }
 

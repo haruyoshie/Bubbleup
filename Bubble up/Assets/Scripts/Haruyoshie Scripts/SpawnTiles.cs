@@ -12,9 +12,16 @@ public class SpawnTiles : MonoBehaviour
 
     private float nextSpawnPosition = 0f; // Posición donde se generará la próxima pieza
     private Queue<GameObject> spawnedGrounds = new Queue<GameObject>(); // Cola para manejar las piezas del terreno
+    private float _height; // Altura actual
 
     void Start()
     {
+        // Suscribirse al evento de altura
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.Height += OnHeightChanged;
+        }
+
         // Generar las piezas iniciales del terreno
         for (int i = 0; i < initialGroundCount; i++)
         {
@@ -37,10 +44,16 @@ public class SpawnTiles : MonoBehaviour
         }
     }
 
+    private void OnHeightChanged(float height)
+    {
+        _height = height; // Actualizar la altura actual
+        //Debug.Log($"Altura actual: {_height}");
+    }
+
     void SpawnGround()
     {
-        // Elegir un prefab aleatorio de la lista
-        GameObject groundPrefab = groundPrefabs[Random.Range(0, groundPrefabs.Length)];
+        // Elegir un prefab según la altura actual
+        GameObject groundPrefab = SelectPrefabByHeight(_height);
 
         // Instanciar la pieza del terreno en el eje Y
         GameObject newGround = Instantiate(groundPrefab, new Vector3(0, nextSpawnPosition, 0), Quaternion.identity);
@@ -58,5 +71,21 @@ public class SpawnTiles : MonoBehaviour
         GameObject oldGround = spawnedGrounds.Dequeue();
         Destroy(oldGround);
     }
-}
 
+    GameObject SelectPrefabByHeight(float height)
+    {
+        // Seleccionar prefab según rangos de altura
+        if (height < 50)
+        {
+            return groundPrefabs[0]; // Prefab para alturas bajas
+        }
+        else if (height < 100)
+        {
+            return groundPrefabs[1]; // Prefab para alturas medias
+        }
+        else
+        {
+            return groundPrefabs[2]; // Prefab para alturas altas
+        }
+    }
+}

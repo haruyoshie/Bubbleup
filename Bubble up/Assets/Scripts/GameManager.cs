@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private float _maxHeightDificult;
+
     [SerializeField]
     private bool _gameOverState;
 
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        GameOver += (bool value)=> _gameOverState = value;
+        GameOver += (bool value) => _gameOverState = value;
     }
 
     public void ChangeHeight(float height)
