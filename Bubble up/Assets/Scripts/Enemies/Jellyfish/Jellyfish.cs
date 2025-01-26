@@ -35,6 +35,7 @@ public class JellyfishController : MonoBehaviour
         float camWidth = camHeight * cam.aspect;
         leftBoundary = new Vector2(cam.transform.position.x - camWidth, transform.position.y);
         rightBoundary = new Vector2(cam.transform.position.x + camWidth, transform.position.y);
+        centerPosition = new Vector2((leftBoundary.x + rightBoundary.x) / 2, transform.position.y);
 
         RandomSpawn();
     }
