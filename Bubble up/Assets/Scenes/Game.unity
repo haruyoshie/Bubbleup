@@ -1508,6 +1508,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Asset: {fileID: -944628639613478452, guid: 4e1102aa2728d714bb7273561f462fd7, type: 3}
   m_ActionId: b4f4e1f9-24b8-4465-92d9-d04b5c3b7bb6
+--- !u!1001 &841923093
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2533606139548383979, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_Name
+      value: EnvironmentLevel3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049908074992245290, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049908074992245290, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -13.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049908074992245290, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049908074992245290, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049908074992245290, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049908074992245290, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049908074992245290, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049908074992245290, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049908074992245290, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049908074992245290, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
 --- !u!1 &862338428
 GameObject:
   m_ObjectHideFlags: 0
@@ -2427,6 +2484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHeightDificult: 500
   _gameOverState: 0
+  gameOverUI: {fileID: 988415717}
 --- !u!4 &1919327916
 Transform:
   m_ObjectHideFlags: 0
@@ -2529,6 +2587,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1919327915}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: RestarScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3259,6 +3329,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundPrefabs:
+  - {fileID: 2533606139548383979, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
+  - {fileID: 2533606139548383979, guid: 24dc486e9f0beab41a86f5937fce7659, type: 3}
   - {fileID: 2533606139548383979, guid: d62b0067188128e4dab00d6806810d22, type: 3}
   spawnDistance: 15
   initialGroundCount: 0
@@ -3324,6 +3396,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _stats.MaxLife
+      value: 10000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3341,3 +3417,4 @@ SceneRoots:
   - {fileID: 1919327916}
   - {fileID: 1181426444}
   - {fileID: 680834840}
+  - {fileID: 841923093}

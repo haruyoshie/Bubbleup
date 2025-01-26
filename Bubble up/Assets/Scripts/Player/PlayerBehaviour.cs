@@ -233,6 +233,7 @@ public class PlayerBehaviour : MonoBehaviour
         StopAllCoroutines();
         _animator.SetTrigger("Die");
         GameManager.Instance.GameOver.Invoke(true);
+        GameManager.Instance.gameOverUI.SetActive(true);
         Debug.Log("GameOver");
     }
 }
