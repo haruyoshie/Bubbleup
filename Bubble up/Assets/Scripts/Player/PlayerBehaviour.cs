@@ -29,6 +29,9 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
+    [SerializeField]
+    private Transform _arrow;
+
     private Vector2 _screenBounds;
 
     private float _currentHeight;
@@ -194,6 +197,7 @@ public class PlayerBehaviour : MonoBehaviour
         float elapsedTime = 0f;
         float directionSwitchTime = 0f;
         int horizontalDirection = UnityEngine.Random.Range(0, 2) == 0 ? -1 : 1;
+        float startYPosition = transform.position.y;
 
         while (true)
         {
@@ -215,6 +219,10 @@ public class PlayerBehaviour : MonoBehaviour
                 directionSwitchTime = 0f;
                 elapsedTime = 0f;
                 horizontalDirection *= -1;
+            }
+            if(transform.position.y < startYPosition - _stats.LimitDistnaceToFail)
+            {
+                ChangeLife(-0.00000000001f);
             }
 
             elapsedTime += Time.deltaTime;

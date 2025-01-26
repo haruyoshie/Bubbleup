@@ -2660,11 +2660,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundPrefabs:
-  - {fileID: 2533606139548383979, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
-  - {fileID: 2533606139548383979, guid: 24dc486e9f0beab41a86f5937fce7659, type: 3}
   - {fileID: 2533606139548383979, guid: d62b0067188128e4dab00d6806810d22, type: 3}
+  - {fileID: 2533606139548383979, guid: 24dc486e9f0beab41a86f5937fce7659, type: 3}
+  - {fileID: 2533606139548383979, guid: 35b9d91d5d9436445a43216bb4bec86a, type: 3}
   _spawnDistance: 16.795
-  _initialGroundCount: 0
+  _initialGroundCount: 5
   _player: {fileID: 666602777}
   _despawnDistance: 20
 --- !u!1001 &8492105660747163271
@@ -2726,6 +2726,30 @@ PrefabInstance:
     - target: {fileID: 4564881761137402082, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _stats.MaxLife
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _stats.JumpForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _stats.MaxFallSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _stats.MaxHorizontalSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _stats.ZigZagSwitchInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _zigzagCurve.m_Curve.Array.data[1].value
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
       propertyPath: _animationCurve.m_Curve.Array.data[1].value

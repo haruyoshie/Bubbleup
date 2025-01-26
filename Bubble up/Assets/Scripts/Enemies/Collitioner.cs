@@ -6,6 +6,7 @@ public class Collitioner : MonoBehaviour
     private bool _autoKiller;
     [SerializeField]
     private float _damage = 10f;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -17,7 +18,8 @@ public class Collitioner : MonoBehaviour
             }
             else
             {
-                player.ChangeLife(-_damage);
+                player.GetComponent<ParticlesInvoke>().InvokeParticles();
+                player.ChangeLife(_damage);
             }
         }
     }
