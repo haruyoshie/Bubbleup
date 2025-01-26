@@ -3320,8 +3320,20 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _stats.MaxLife
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _stats.MaxFallSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
       propertyPath: _arrowMaxRotationSpeed
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _stats.MaxHorizontalSpeed
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

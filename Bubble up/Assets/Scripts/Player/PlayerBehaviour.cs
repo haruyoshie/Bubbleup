@@ -268,7 +268,7 @@ public class PlayerBehaviour : MonoBehaviour
             }
             if(transform.position.y < startYPosition - _stats.LimitDistnaceToFail)
             {
-                ChangeLife(-0.000000001f);
+                ChangeLife(-0.00000001f);
             }
 
             elapsedTime += Time.deltaTime;
