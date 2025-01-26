@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,10 +9,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private float _maxHeightDificult;
+
     [SerializeField]
     private bool _gameOverState;
-
-    public GameObject gameOverUI;
 
     public float MaxHeightDificult 
     { 
@@ -27,17 +25,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        GameOver += (bool value)=> _gameOverState = value;
+        GameOver += (bool value) => _gameOverState = value;
     }
 
     public void ChangeHeight(float height)
     {
         Height?.Invoke(height);
     }
-
-    public void RestarScene()
-    {
-        SceneManager.LoadScene(0);
-    }
-    
 }

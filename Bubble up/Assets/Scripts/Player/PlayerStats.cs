@@ -18,6 +18,8 @@ public class PlayerStats
 
     public float LimitDistnaceToFail = 20f;
 
+    public float ZigZagSwitchInterval;
+
     private float _jumpTimeEnergy;
     private float _currentLife;
     private float _currentFallSpeed;
@@ -27,4 +29,5 @@ public class PlayerStats
     public float CurrentLife { get => _currentLife; set => _currentLife = value; }
     public float CurrentFallSpeed { get => _currentFallSpeed; set => _currentFallSpeed = value; }
     public float CurrentHorizontalSpeed { get => _currentHorizontalSpeed; set => _currentHorizontalSpeed = value; }
+
 }

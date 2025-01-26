@@ -21,6 +21,9 @@ public class PlayerBehaviour : MonoBehaviour
     private AnimationCurve _animationCurve;
 
     [SerializeField]
+    private AnimationCurve _zigzagCurve;
+
+    [SerializeField]
     private InputActionReference _jump;
 
     [SerializeField]
@@ -50,8 +53,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void SetSpeeds()
     {
-        _stats.CurrentFallSpeed = Mathf.Lerp(_stats.JumpForce/1.5f, _stats.MaxFallSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
-        _stats.CurrentHorizontalSpeed = Mathf.Lerp(_stats.JumpForce / 2, _stats.MaxHorizontalSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
+        _stats.CurrentFallSpeed = Mathf.Lerp(_stats.JumpForce / 10, _stats.MaxFallSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
+        _stats.CurrentHorizontalSpeed = Mathf.Lerp(_stats.JumpForce / 10, _stats.MaxHorizontalSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
     }
 
     private void Jump(InputAction.CallbackContext context)
@@ -139,7 +142,7 @@ public class PlayerBehaviour : MonoBehaviour
             SetSpeeds();
         }
 
-        _movingDown = StartCoroutine(MoveDownWithDynamicDirection());
+        _movingDown = StartCoroutine(MoveDownWithSmoothZigzag());
     }
 
     private void CheckLife()
@@ -178,62 +181,53 @@ public class PlayerBehaviour : MonoBehaviour
             yield return null;
         }
     }
-    private IEnumerator MoveDownWithDynamicDirection()
+    private IEnumerator MoveDownWithSmoothZigzag()
     {
-        float currentDirection = 0f;
-
-        Vector3 startPosition = transform.position;
-
-        float leftDistance = Mathf.Abs(startPosition.x - (-_screenBounds.x));
-        float rightDistance = Mathf.Abs(startPosition.x - _screenBounds.x);
-
-        float horizontalBias = 0f;
-        if (leftDistance < rightDistance)
-        {
-            horizontalBias = -1f;
-        }
-        else if (rightDistance < leftDistance)
-        {
-            horizontalBias = 1f;
-        }
-        else
-        {
-            horizontalBias = UnityEngine.Random.Range(0f, 1f) < 0.5f ? 1f : -1f;
-        }
-
-        float heightFactor = Mathf.Clamp01(_currentHeight / GameManager.Instance.MaxHeightDificult);
-        float randomDirection = UnityEngine.Random.Range(-1f, 1f);
-        currentDirection = Mathf.Lerp(randomDirection, horizontalBias, heightFactor);
+        float elapsedTime = 0f;
+        float directionSwitchTime = 0f;
+        int horizontalDirection = UnityEngine.Random.Range(0, 2) == 0 ? -1 : 1;
 
         while (true)
         {
-            float horizontalDisplacement = currentDirection * _stats.CurrentHorizontalSpeed * Time.deltaTime;
-            float newX = transform.position.x + horizontalDisplacement;
-            float newY = transform.position.y - (_stats.CurrentFallSpeed * Time.deltaTime);
+            float horizontalDisplacement = horizontalDirection * _stats.CurrentHorizontalSpeed * Time.deltaTime;
+            float verticalDisplacement = -_stats.CurrentFallSpeed * Time.deltaTime;
 
-            newX = Mathf.Clamp(newX, -_screenBounds.x + transform.localScale.x / 2, _screenBounds.x - transform.localScale.x / 2);
+            float curveValue = _zigzagCurve.Evaluate(elapsedTime / _jumpTime);
+            horizontalDisplacement *= curveValue;
 
-            transform.position = new Vector3(newX, newY, transform.position.z);
+            Vector3 newPosition = transform.position + new Vector3(horizontalDisplacement, verticalDisplacement, 0);
 
-            if (transform.position.y <= startPosition.y - _stats.LimitDistnaceToFail)
+            newPosition.x = Mathf.Clamp(newPosition.x, -_screenBounds.x, _screenBounds.x);
+
+            transform.position = newPosition;
+
+            directionSwitchTime += Time.deltaTime;
+            if (directionSwitchTime >= _stats.ZigZagSwitchInterval)
             {
-                ChangeLife(-0.0000000001f);
+                directionSwitchTime = 0f;
+                elapsedTime = 0f;
+                horizontalDirection *= -1;
             }
-            //if (newX <= -_screenBounds.x + transform.localScale.x / 2 || newX >= _screenBounds.x - transform.localScale.x / 2)
-            //{
-            //    GameOver();
-            //}
+
+            elapsedTime += Time.deltaTime;
 
             yield return null;
         }
     }
+
+
 
     public void GameOver()
     {
         StopAllCoroutines();
         _animator.SetTrigger("Die");
         GameManager.Instance.GameOver.Invoke(true);
-        GameManager.Instance.gameOverUI.SetActive(true);
         Debug.Log("GameOver");
+    }
+
+    private void OnDestroy()
+    {
+        CheckAndStopCoroutines();
+        _jump.action.performed -= Jump;
     }
 }
