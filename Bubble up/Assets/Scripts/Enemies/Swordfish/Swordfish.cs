@@ -18,6 +18,8 @@ public class Swordfish : MonoBehaviour
     private bool leftPoint;
     private bool rightPoint;
 
+    private float direction;
+
     private Vector2 leftBoundary;
     private Vector2 rightBoundary;
 
@@ -51,15 +53,19 @@ public class Swordfish : MonoBehaviour
         if (Random.Range(0, 2) == 0)
         {
             transform.position = new Vector2(leftBoundary.x + 0.6f, leftBoundary.y);
+            direction = 1;
             rightPoint = true;
             leftPoint = false;
         }
         else
         {
             transform.position = new Vector2(rightBoundary.x - 0.6f, rightBoundary.y);
+            direction = -1;
             rightPoint = false;
             leftPoint = true;
         }
+
+        transform.localScale = new Vector3(direction, 1, 1);
 
     }
 
@@ -86,11 +92,13 @@ public class Swordfish : MonoBehaviour
         {
             rightPoint = false;
             leftPoint = true;
+            transform.localScale = new Vector3(-1, 1, 1);
         }
         if (Vector2.Distance(transform.position, leftBoundary) < 0.5f && leftPoint)
         {
             rightPoint = true;
             leftPoint = false;
+            transform.localScale = new Vector3(1, 1, 1);
         }
 
     }
@@ -102,17 +110,18 @@ public class Swordfish : MonoBehaviour
 
     private void EnforceBoundary()
     {
-        // Ensure the fish stays within boundaries
         if (transform.position.x < leftBoundary.x)
         {
             transform.position = new Vector2(leftBoundary.x, transform.position.y);
-            rightPoint = true; // Start moving towards the right
+            transform.localScale = new Vector3(1, 1, 1);
+            rightPoint = true;
             leftPoint = false;
         }
         else if (transform.position.x > rightBoundary.x)
         {
             transform.position = new Vector2(rightBoundary.x, transform.position.y);
-            rightPoint = false; // Start moving towards the left
+            transform.localScale = new Vector3(-1, 1, 1);
+            rightPoint = false;
             leftPoint = true;
         }
     }
