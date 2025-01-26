@@ -2702,7 +2702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b7ed6f12650bd449dffb84878a26fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHeightDificult: 150
+  _maxHeightDificult: 90
   _gameOverState: 0
   _score: {fileID: 1692098703}
   _recordScore: {fileID: 1410144945}
