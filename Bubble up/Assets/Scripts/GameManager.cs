@@ -26,6 +26,11 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         GameOver += (bool value) => _gameOverState = value;
+
+        if(GameMode.CurrentGameType == GameMode.GameType.Infinite)
+        {
+            _maxHeightDificult = PlayerPrefs.GetFloat("MaxScore") > _maxHeightDificult ? _maxHeightDificult * 2 : _maxHeightDificult;
+        }
     }
 
     public void ChangeHeight(float height)

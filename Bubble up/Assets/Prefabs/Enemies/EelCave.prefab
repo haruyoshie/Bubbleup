@@ -180,18 +180,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anglerfish
       objectReference: {fileID: 0}
-    - target: {fileID: 3767899378806904126, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5153986393846143301, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5153986393846143301, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5153986393846143301, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.977049
@@ -235,109 +223,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3767899378806904126, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6865071907760328470}
-    - targetCorrespondingSourceObject: {fileID: 3767899378806904126, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2200189074261784237}
-    - targetCorrespondingSourceObject: {fileID: 3767899378806904126, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2356077437035640077}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
---- !u!1 &3187445475114488091 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3767899378806904126, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
-  m_PrefabInstance: {fileID: 1762684540005073957}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6865071907760328470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3187445475114488091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b002819a02b4d14a8a6d5395e72204f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  direction: 0
-  boxCollider2D: {fileID: 2356077437035640077}
-  rb: {fileID: 2200189074261784237}
---- !u!50 &2200189074261784237
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3187445475114488091}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!61 &2356077437035640077
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3187445475114488091}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 7.83, y: 3.93}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 7.83, y: 3.93}
-  m_EdgeRadius: 0
 --- !u!4 &6913292684307602784 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5153986393846143301, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
@@ -351,6 +238,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6009050457407050171}
     m_Modifications:
+    - target: {fileID: 3322271090335371138, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3767899378806904126, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
       propertyPath: m_Name
       value: Anglerfish (2)
@@ -526,6 +417,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6009050457407050171}
     m_Modifications:
+    - target: {fileID: 3322271090335371138, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3767899378806904126, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
       propertyPath: m_Name
       value: Anglerfish (3)
@@ -701,6 +596,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6009050457407050171}
     m_Modifications:
+    - target: {fileID: 3322271090335371138, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3767899378806904126, guid: ea7d6f46a1d8a9847bb4fa157df20741, type: 3}
       propertyPath: m_Name
       value: Anglerfish (1)

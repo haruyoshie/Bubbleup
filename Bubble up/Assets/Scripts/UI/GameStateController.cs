@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,12 @@ public class GameStateController : MonoBehaviour
     [SerializeField]
     private Button _continueBtn;
 
+    [SerializeField]
+    private PlayerBehaviour _playerBehaviour;
+
+    [SerializeField]
+    private GameObject _tutorial;
+
     private void Start()
     {
         Time.timeScale = 1;
@@ -34,7 +41,18 @@ public class GameStateController : MonoBehaviour
         _pauseBtn.onClick.AddListener(() => SetTimeScaleAndObjectState(_pauseContainer, true));
         _continueBtn.onClick.AddListener(() => SetTimeScaleAndObjectState(_pauseContainer, false));
 
+        _playerBehaviour.JumpState += TutorialState;
+
         GameManager.Instance.GameOver += GameOver;
+    }
+
+    private void TutorialState(bool obj)
+    {
+        if (obj)
+        {
+            _tutorial.SetActive(false);
+            _playerBehaviour.JumpState -= TutorialState;
+        }
     }
 
     private async void GameOver(bool state)

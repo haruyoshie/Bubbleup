@@ -3,7 +3,14 @@ using UnityEngine;
 public class Collitioner : MonoBehaviour
 {
     [SerializeField]
+    private bool _disableOnCollition = false;
+
+    [SerializeField]
+    private GameObject _parent;
+
+    [SerializeField]
     private bool _autoKiller;
+
     [SerializeField]
     private float _damage = 10f;
 
@@ -20,6 +27,12 @@ public class Collitioner : MonoBehaviour
             {
                 player.GetComponent<ParticlesInvoke>().InvokeParticles();
                 player.ChangeLife(_damage);
+            }
+
+            if (_disableOnCollition)
+            {
+                _parent.SetActive(false);
+                AudioManager.Instance.PlayClic();
             }
         }
     }

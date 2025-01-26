@@ -135,7 +135,11 @@ MonoBehaviour:
     _prefab: {fileID: 1277736623031070053, guid: e690cab30b170be41a8835f964f28802, type: 3}
   - _name: Jellyfish
     _prefab: {fileID: 5369078501067434646, guid: 92b4e801076b3634ea64cf3fa815c9dc, type: 3}
-  _spawnableHeals: []
+  - _name: EelCave
+    _prefab: {fileID: 5322017448321935033, guid: e33d0162d9e0c074a9cb93c095ea5250, type: 3}
+  _spawnableHeals:
+  - _name: Heal
+    _prefab: {fileID: 4287220778465751306, guid: def8c35de66687543b48f3b77d37be4f, type: 3}
   _spawnableWalls:
   - _name: Coral
     _prefab: {fileID: 418415022214510634, guid: 57e1154c68837434380f5150caa0d151, type: 3}

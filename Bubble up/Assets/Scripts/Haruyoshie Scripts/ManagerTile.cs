@@ -22,6 +22,7 @@ public class ManagerTile : MonoBehaviour
 
     private Vector2 _screenBounds;
     private List<Vector2> _spawnPositions = new List<Vector2>();
+    private List<Vector2> _healSpawnPositions = new List<Vector2>();
     private List<Vector2> _wallSpawnPositions = new List<Vector2>();
     private HashSet<Vector2> _usedPositions = new HashSet<Vector2>();
     private HashSet<Vector2> _usedWallPositions = new HashSet<Vector2>();
@@ -59,6 +60,14 @@ public class ManagerTile : MonoBehaviour
         {
             _spawnPositions.Add(new Vector2(leftBound, y));
             _spawnPositions.Add(new Vector2(rightBound, y));
+        }
+
+        // Generar posiciones más cercanas al centro para curas (heals)
+        float centerBound = _screenBounds.x * 0.5f;
+        for (float y = -5f; y <= 5f; y += 1f)
+        {
+            _healSpawnPositions.Add(new Vector2(-centerBound, y));
+            _healSpawnPositions.Add(new Vector2(centerBound, y));
         }
 
         // Generar posiciones para paredes
@@ -118,17 +127,17 @@ public class ManagerTile : MonoBehaviour
         int enemyCount = Mathf.RoundToInt(Mathf.Lerp(_minEnemies, _maxEnemies, heightRatio));
         int healCount = Mathf.RoundToInt(Mathf.Lerp(_maxHeals, _minHeals, heightRatio));
 
-        SpawnItems(_spawnableEnemies, enemyCount);
-        SpawnItems(_spawnableHeals, healCount);
+        SpawnItems(_spawnableEnemies, enemyCount, _spawnPositions);
+        SpawnItems(_spawnableHeals, healCount, _healSpawnPositions);
     }
 
-    private void SpawnItems(List<SpawnableItem> items, int count)
+    private void SpawnItems(List<SpawnableItem> items, int count, List<Vector2> positions)
     {
         if (items.Count == 0) return;
 
         for (int i = 0; i < count; i++)
         {
-            Vector2 spawnPosition = GetRandomSpawnPosition();
+            Vector2 spawnPosition = GetRandomSpawnPosition(positions);
 
             if (spawnPosition == Vector2.zero) continue;
 
@@ -139,13 +148,13 @@ public class ManagerTile : MonoBehaviour
         }
     }
 
-    private Vector2 GetRandomSpawnPosition()
+    private Vector2 GetRandomSpawnPosition(List<Vector2> positions)
     {
         int attempts = 0;
 
         while (attempts < 100)
         {
-            Vector2 position = _spawnPositions[Random.Range(0, _spawnPositions.Count)];
+            Vector2 position = positions[Random.Range(0, positions.Count)];
 
             if (!_usedPositions.Contains(position))
             {

@@ -107,7 +107,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void PlayClic()
+    public void PlayClic()
     {
         _extraFx.PlayOneShot(_clic);
     }

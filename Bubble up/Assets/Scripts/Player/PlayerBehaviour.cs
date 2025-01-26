@@ -18,6 +18,14 @@ public class PlayerBehaviour : MonoBehaviour
     private float _jumpTime;
 
     [SerializeField]
+    private float _arrowMaxRotationSpeed = 60f;
+    [SerializeField]
+    private float _arrowMinRotationSpeed = 60f;
+
+    [SerializeField]
+    private float _arrowRotationRange = 45f;
+
+    [SerializeField]
     private AnimationCurve _animationCurve;
 
     [SerializeField]
@@ -36,10 +44,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     private float _currentHeight;
     private float _heightRecord;
+    private float _arrowRotationSpeed;
 
     private Coroutine _charging;
     private Coroutine _movingDown;
     private Coroutine _movingUp;
+
+    private bool _isRotatingRight = true;
 
     private void Awake()
     {
@@ -52,12 +63,35 @@ public class PlayerBehaviour : MonoBehaviour
         Camera mainCamera = Camera.main;
         _screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         SetSpeeds();
+
+        StartCoroutine(RotateArrow());
     }
 
     private void SetSpeeds()
     {
         _stats.CurrentFallSpeed = Mathf.Lerp(_stats.JumpForce / 10, _stats.MaxFallSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
         _stats.CurrentHorizontalSpeed = Mathf.Lerp(_stats.JumpForce / 10, _stats.MaxHorizontalSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
+        _arrowRotationSpeed = Mathf.Lerp(_arrowMinRotationSpeed, _arrowMaxRotationSpeed, _currentHeight / GameManager.Instance.MaxHeightDificult);
+    }
+
+    private IEnumerator RotateArrow()
+    {
+        while (true)
+        {
+            float rotationStep = _arrowRotationSpeed * Time.deltaTime * (_isRotatingRight ? 1 : -1);
+            _arrow.Rotate(0, 0, rotationStep);
+
+            float currentZRotation = _arrow.localEulerAngles.z;
+            if (currentZRotation > 180) currentZRotation -= 360;
+
+            if (Mathf.Abs(currentZRotation) >= _arrowRotationRange)
+            {
+                _isRotatingRight = !_isRotatingRight;
+                _arrow.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(currentZRotation, -_arrowRotationRange, _arrowRotationRange));
+            }
+
+            yield return null;
+        }
     }
 
     private void Jump(InputAction.CallbackContext context)
@@ -126,7 +160,8 @@ public class PlayerBehaviour : MonoBehaviour
         float totalJumpTime = Mathf.Clamp(_stats.JumpTimeEnergy, 0, _maxTimeForce) * _stats.JumpForce;
 
         Vector3 startPosition = transform.position;
-        Vector3 targetPosition = startPosition + new Vector3(0, totalJumpTime, 0);
+        Vector3 jumpDirection = _arrow.up.normalized;
+        Vector3 targetPosition = startPosition + jumpDirection * totalJumpTime;
 
         while (elapsedTime < _jumpTime)
         {
@@ -135,13 +170,23 @@ public class PlayerBehaviour : MonoBehaviour
             float progress = Mathf.Clamp01(elapsedTime / _jumpTime);
             float curveValue = _animationCurve.Evaluate(progress);
 
-            transform.position = Vector3.Lerp(startPosition, targetPosition, curveValue);
+            Vector3 nextPosition = Vector3.Lerp(startPosition, targetPosition, curveValue);
+
+            if (nextPosition.x >= _screenBounds.x)
+            {
+                nextPosition.x = _screenBounds.x;
+            }
+            if(nextPosition.x <= -_screenBounds.x)
+            {
+                nextPosition.x = -_screenBounds.x;
+            }
+
+            transform.position = nextPosition;
 
             yield return null;
         }
 
         CheckHeigthRecord();
-
         _movingDown = StartCoroutine(MoveDownWithSmoothZigzag());
     }
 
@@ -188,6 +233,7 @@ public class PlayerBehaviour : MonoBehaviour
             float progress = Mathf.Clamp01(elapsedTime / _jumpTime);
 
             _stats.Sprite.transform.localScale = Vector3.Lerp(startScale, targetScale, progress);
+            _arrow.transform.localScale = Vector3.Lerp(startScale, targetScale, progress);
 
             yield return null;
         }
