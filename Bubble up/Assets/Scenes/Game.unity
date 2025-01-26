@@ -2702,7 +2702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b7ed6f12650bd449dffb84878a26fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHeightDificult: 210
+  _maxHeightDificult: 150
   _gameOverState: 0
   _score: {fileID: 1692098703}
   _recordScore: {fileID: 1410144945}
@@ -3318,6 +3318,10 @@ PrefabInstance:
     - target: {fileID: 4564881761137402082, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877744247103806159, guid: eb3a64dab277e3f4e843f6513393d341, type: 3}
+      propertyPath: _arrowMaxRotationSpeed
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
