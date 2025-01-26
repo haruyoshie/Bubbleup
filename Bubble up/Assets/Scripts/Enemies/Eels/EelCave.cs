@@ -35,7 +35,7 @@ public class EelCave : MonoBehaviour
         leftBoundary = new Vector2(cam.transform.position.x - camWidth, transform.position.y);
         rightBoundary = new Vector2(cam.transform.position.x + camWidth, transform.position.y);
 
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = FindObjectOfType<PlayerBehaviour>(true).gameObject;
 
         eelPosition = transform.GetChild(0);
         RandomSpawn();

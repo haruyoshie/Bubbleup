@@ -72,7 +72,7 @@ public class SceneController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private void ChangeScene()
+    public void ChangeScene()
     {
         _screenBlocker.SetActive(true);
         StartCoroutine(LoadSceneCoroutine());

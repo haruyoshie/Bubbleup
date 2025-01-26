@@ -268,7 +268,7 @@ public class PlayerBehaviour : MonoBehaviour
             }
             if(transform.position.y < startYPosition - _stats.LimitDistnaceToFail)
             {
-                ChangeLife(-0.00000000001f);
+                ChangeLife(-0.000000001f);
             }
 
             elapsedTime += Time.deltaTime;
@@ -284,6 +284,7 @@ public class PlayerBehaviour : MonoBehaviour
         StopAllCoroutines();
         _animator.SetTrigger("Die");
         GameManager.Instance.GameOver.Invoke(true);
+        _arrow.gameObject.SetActive(false);
         Debug.Log("GameOver");
     }
 

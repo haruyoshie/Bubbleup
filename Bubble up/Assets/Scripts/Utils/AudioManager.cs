@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -28,6 +29,19 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip _clic;
 
+    [SerializeField]
+    private AudioMixer _mixer;
+
+    [SerializeField]
+    private float _targetCutoff = 500f;
+
+    [SerializeField]
+    private float _lerpDuration = 1f; 
+    
+    private float _initialCutoff;
+
+    private Coroutine _lowPassCoroutine;
+
     private PlayerBehaviour _player;
 
     private void Awake()
@@ -47,6 +61,8 @@ public class AudioManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneChanged;
         SceneManager.sceneUnloaded += OnSceneUnLoad;
+
+        _mixer.GetFloat("LowpassCutoff",out _initialCutoff);
         FindAllBtnsAndAddSound();
     }
 
@@ -70,6 +86,7 @@ public class AudioManager : MonoBehaviour
         if (_player != null)
         {
             _player.JumpState -= PlayJumpSound;
+            _player.JumpState -= AudioMixerFX;
         }
     }
 
@@ -114,10 +131,51 @@ public class AudioManager : MonoBehaviour
 
     private void SetPlayerAudio()
     {
-        _player = FindAnyObjectByType<PlayerBehaviour>();
+        _player = FindObjectOfType<PlayerBehaviour>(true);
         _player.JumpState += PlayJumpSound;
+        _player.JumpState += AudioMixerFX;
     }
 
+    private void AudioMixerFX(bool state)
+    {
+        if (_lowPassCoroutine != null)
+        {
+            StopCoroutine(_lowPassCoroutine);
+        }
+
+        _lowPassCoroutine = StartCoroutine(LerpLowPass(state));
+    }
+    private IEnumerator LerpLowPass(bool state)
+    {
+        float startValue;
+        float endValue;
+
+        if (state)
+        {
+            startValue = _initialCutoff;
+            endValue = _targetCutoff;
+        }
+        else
+        {
+            startValue = _targetCutoff;
+            endValue = _initialCutoff;
+        }
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < _lerpDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / _lerpDuration;
+            float currentCutoff = Mathf.Lerp(startValue, endValue, t);
+
+            _mixer.SetFloat("LowpassCutoff", currentCutoff);
+
+            yield return null;
+        }
+
+        _mixer.SetFloat("LowpassCutoff", endValue);
+    }
     private void PlayJumpSound(bool state)
     {
         if (state) return;

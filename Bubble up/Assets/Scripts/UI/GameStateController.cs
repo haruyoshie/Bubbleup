@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,7 +28,23 @@ public class GameStateController : MonoBehaviour
     private PlayerBehaviour _playerBehaviour;
 
     [SerializeField]
+    private Button _introContinueBtn;
+
+    [SerializeField]
     private GameObject _tutorial;
+
+    [SerializeField]
+    private GameObject _intro;
+
+    private void Awake()
+    {
+        if (GameMode.CurrentGameType == GameMode.GameType.Story)
+        {
+            _playerBehaviour.gameObject.SetActive(false);
+            _introContinueBtn.onClick.AddListener(() => SetTimeScaleAndObjectState(_intro, false));
+            _introContinueBtn.onClick.AddListener(() => _playerBehaviour.gameObject.SetActive(true));
+        }
+    }
 
     private void Start()
     {
