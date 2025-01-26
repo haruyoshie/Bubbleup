@@ -64,6 +64,8 @@ public class PlayerBehaviour : MonoBehaviour
             return;
         }
 
+        CheckHeigthRecord();
+
         if (context.ReadValueAsButton())
         {
             _charging = StartCoroutine(ChargeTimeEnergy());
@@ -134,6 +136,14 @@ public class PlayerBehaviour : MonoBehaviour
 
             yield return null;
         }
+
+        CheckHeigthRecord();
+
+        _movingDown = StartCoroutine(MoveDownWithSmoothZigzag());
+    }
+
+    private void CheckHeigthRecord()
+    {
         _heightRecord = transform.position.y;
 
         if (_heightRecord > _currentHeight)
@@ -141,8 +151,6 @@ public class PlayerBehaviour : MonoBehaviour
             GameManager.Instance.ChangeHeight(_heightRecord);
             SetSpeeds();
         }
-
-        _movingDown = StartCoroutine(MoveDownWithSmoothZigzag());
     }
 
     private void CheckLife()

@@ -1,29 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnTiles : MonoBehaviour
 {
-    public GameObject[] groundPrefabs; // Prefabs de las piezas del terreno
-    public float spawnDistance = 20f; // Distancia entre cada pieza del terreno
-    public int initialGroundCount = 5; // Cantidad inicial de piezas de terreno
-    public Transform player; // Referencia al jugador
-    public float despawnDistance = 10f; // Distancia para eliminar piezas antiguas
+    public List<GameObject> _groundPrefabs;
+    public float _spawnDistance = 20f;
+    public int _initialGroundCount = 5;
+    public Transform _player;
+    public float _despawnDistance = 10f;
 
-    private float nextSpawnPosition = 0f; // Posición donde se generará la próxima pieza
-    private Queue<GameObject> spawnedGrounds = new Queue<GameObject>(); // Cola para manejar las piezas del terreno
-    private float _height; // Altura actual
+    private float _nextSpawnPosition = -13.7f;
+    private Queue<GameObject> _spawnedGrounds = new Queue<GameObject>();
+    private float _height;
 
     void Start()
     {
-        // Suscribirse al evento de altura
         if (GameManager.Instance != null)
         {
             GameManager.Instance.Height += OnHeightChanged;
         }
 
-        // Generar las piezas iniciales del terreno
-        for (int i = 0; i < initialGroundCount; i++)
+        for (int i = 0; i < _initialGroundCount; i++)
         {
             SpawnGround();
         }
@@ -31,14 +28,12 @@ public class SpawnTiles : MonoBehaviour
 
     void Update()
     {
-        // Generar nuevas piezas del terreno si el jugador se acerca al borde
-        if (player.position.y + spawnDistance > nextSpawnPosition)
+        if (_player.position.y + _spawnDistance > _nextSpawnPosition)
         {
             SpawnGround();
         }
 
-        // Destruir piezas antiguas para optimizar
-        if (spawnedGrounds.Count > 0 && player.position.y - spawnedGrounds.Peek().transform.position.y > despawnDistance)
+        if (_spawnedGrounds.Count > 0 && _player.position.y - _spawnedGrounds.Peek().transform.position.y > _despawnDistance)
         {
             DestroyOldGround();
         }
@@ -46,46 +41,37 @@ public class SpawnTiles : MonoBehaviour
 
     private void OnHeightChanged(float height)
     {
-        _height = height; // Actualizar la altura actual
-        //Debug.Log($"Altura actual: {_height}");
+        _height = height;
     }
 
     void SpawnGround()
     {
-        // Elegir un prefab según la altura actual
-        GameObject groundPrefab = SelectPrefabByHeight(_height);
-
-        // Instanciar la pieza del terreno en el eje Y
-        GameObject newGround = Instantiate(groundPrefab, new Vector3(0, nextSpawnPosition, 0), Quaternion.identity);
-
-        // Añadir la pieza a la cola
-        spawnedGrounds.Enqueue(newGround);
-
-        // Actualizar la posición para el siguiente spawn
-        nextSpawnPosition += spawnDistance;
+        GameObject groundPrefab = SelectPrefabByHeight();
+        GameObject newGround = Instantiate(groundPrefab, new Vector3(0, _nextSpawnPosition, 0), Quaternion.identity);
+        _spawnedGrounds.Enqueue(newGround);
+        _nextSpawnPosition += _spawnDistance;
     }
 
     void DestroyOldGround()
     {
-        // Eliminar la pieza más antigua del terreno
-        GameObject oldGround = spawnedGrounds.Dequeue();
+        GameObject oldGround = _spawnedGrounds.Dequeue();
         Destroy(oldGround);
     }
 
-    GameObject SelectPrefabByHeight(float height)
+    GameObject SelectPrefabByHeight()
     {
-        // Seleccionar prefab según rangos de altura
-        if (height < 50)
+        float zones = GameManager.Instance.MaxHeightDificult/3;
+        if (_height >= zones && _height < zones * 2)
         {
-            return groundPrefabs[0]; // Prefab para alturas bajas
+            return _groundPrefabs[0];
         }
-        else if (height < 100)
+        else if (_height >= zones * 2 && _height < zones * 3)
         {
-            return groundPrefabs[1]; // Prefab para alturas medias
+            return _groundPrefabs[1];
         }
         else
         {
-            return groundPrefabs[2]; // Prefab para alturas altas
+            return _groundPrefabs[2];
         }
     }
 }
