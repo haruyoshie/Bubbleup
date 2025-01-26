@@ -47,7 +47,7 @@ public class GameStateController : MonoBehaviour
     {
         Time.timeScale = !state ? 1 : 0;
         @object?.SetActive(state);
-        _menuBtn.SetActive(state);
-        _screenBlocker.SetActive(state);
+        _menuBtn?.SetActive(state);
+        _screenBlocker?.SetActive(state);
     }
 }
