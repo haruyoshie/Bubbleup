@@ -24,6 +24,11 @@ public class ParticlesInvoke : MonoBehaviour
         dust.Play();
         StartCoroutine(ReturnToPool(dust));
     }
+
+    public void InvokeParticles()
+    {
+        InvokeParticles(false);
+    }
     private void GameOver(bool state)
     {
         if (!state) return;

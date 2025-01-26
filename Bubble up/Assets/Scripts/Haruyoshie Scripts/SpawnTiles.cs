@@ -22,7 +22,7 @@ public class SpawnTiles : MonoBehaviour
 
         for (int i = 0; i < _initialGroundCount; i++)
         {
-            SpawnGround();
+            SpawnGround(i >= 2);
         }
     }
 
@@ -30,7 +30,7 @@ public class SpawnTiles : MonoBehaviour
     {
         if (_player.position.y + _spawnDistance > _nextSpawnPosition)
         {
-            SpawnGround();
+            SpawnGround(true);
         }
 
         if (_spawnedGrounds.Count > 0 && _player.position.y - _spawnedGrounds.Peek().transform.position.y > _despawnDistance)
@@ -44,10 +44,11 @@ public class SpawnTiles : MonoBehaviour
         _height = height;
     }
 
-    void SpawnGround()
+    void SpawnGround(bool spawn)
     {
         GameObject groundPrefab = SelectPrefabByHeight();
         GameObject newGround = Instantiate(groundPrefab, new Vector3(0, _nextSpawnPosition, 0), Quaternion.identity);
+        newGround.GetComponent<ManagerTile>().DontSpawnNothing = !spawn;
         _spawnedGrounds.Enqueue(newGround);
         _nextSpawnPosition += _spawnDistance;
     }
@@ -61,11 +62,11 @@ public class SpawnTiles : MonoBehaviour
     GameObject SelectPrefabByHeight()
     {
         float zones = GameManager.Instance.MaxHeightDificult/3;
-        if (_height >= zones && _height < zones * 2)
+        if (_height < zones)
         {
             return _groundPrefabs[0];
         }
-        else if (_height >= zones * 2 && _height < zones * 3)
+        else if (_height >= zones && _height < zones * 2)
         {
             return _groundPrefabs[1];
         }
