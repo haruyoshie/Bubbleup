@@ -80,6 +80,8 @@ public class GameStateController : MonoBehaviour
 
     private void SetTimeScaleAndObjectState(GameObject @object, bool state)
     {
+        if (@object == null) return;
+
         Time.timeScale = !state ? 1 : 0;
         @object?.SetActive(state);
         _menuBtn?.SetActive(state);
